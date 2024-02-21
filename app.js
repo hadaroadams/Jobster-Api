@@ -1,23 +1,32 @@
-require('dotenv').config()
-require('express-async-errors')
-const express = require('express')
-const app = express()
-const mongoose = require("mongoose")
-const connectDB = require('./config/dbconn')
+require("dotenv").config();
+require("express-async-errors");
+const express = require("express");
+const app = express();
+const mongoose = require("mongoose");
+const connectDB = require("./config/dbconn");
+const errorHandle = require("./middleware/errorHandle");
+const { notFound } = require("./middleware/notFound");
+const jobApi = require("./routes/jobs");
+const authApi = require("./routes/auth");
 
-
-connectDB()
-const PORT = process.env.PORT || 3900
+connectDB();
+const PORT = process.env.PORT || 3900;
 // middle ware
 
-app.use(express.json())
-app.use(express.urlencoded({extended:false}))
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-mongoose.connection.once('open',()=>{
-    console.log('conneted to mongoDB')
-    app.listen(PORT , ()=>{
-        console.log(`server running on port ${PORT} `)
-    })
-})
+// routes
+app.use("/api/v1/jobs", jobApi);
+app.use("/api/v1/auth", authApi);
 
+// error handle middle ware
+app.use(errorHandle);
+app.use(notFound);
 
+mongoose.connection.once("open", () => {
+  console.log("conneted to mongoDB");
+  app.listen(PORT, () => {
+    console.log(`server running on port ${PORT} `);
+  });
+});
