@@ -1,5 +1,4 @@
-const { Schema } = require("mongoose");
-const { model } = require("mongoose");
+const { Schema, model, Types } = require("mongoose");
 
 const JobSchema = new Schema(
   {
@@ -19,7 +18,7 @@ const JobSchema = new Schema(
       default: "pending",
     },
     createdBy: {
-      type: mongoose.Types.ObjectId,
+      type: Types.ObjectId,
       ref: "User",
       required: [true, "please provide user"],
     },

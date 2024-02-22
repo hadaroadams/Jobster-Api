@@ -8,6 +8,7 @@ const errorHandle = require("./middleware/errorHandle");
 const { notFound } = require("./middleware/notFound");
 const jobApi = require("./routes/jobs");
 const authApi = require("./routes/auth");
+const authenticationMiddleWare = require("./middleware/authentication");
 
 connectDB();
 const PORT = process.env.PORT || 3900;
@@ -17,8 +18,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // routes
-app.use("/api/v1/jobs", jobApi);
 app.use("/api/v1/auth", authApi);
+app.use("/api/v1/jobs", authenticationMiddleWare, jobApi);
 
 // error handle middle ware
 app.use(errorHandle);

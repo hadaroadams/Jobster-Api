@@ -1,25 +1,15 @@
 const express = require("express");
 const router = express.Router();
+const {
+  createJob,
+  deleteJob,
+  getAllJobs,
+  getJob,
+  updateJob,
+} = require("./../Controllers/JobsController");
 
-router
-  .route("/")
-  .get((req, res) => {
-    res.status(200).send("getAll working");
-  })
-  .post((req, res) => {
-    res.status(201).send("post working");
-  });
+router.route("/").get(getAllJobs).post(createJob);
 
-router
-  .route("/:id")
-  .get((req, res) => {
-    res.status(201).send("get working");
-  })
-  .delete((req, res) => {
-    res.status(201).send("delet working");
-  })
-  .patch((req, res) => {
-    res.status(201).send("updated");
-  });
+router.route("/:id").get(getJob).delete(deleteJob).patch(updateJob);
 
 module.exports = router;

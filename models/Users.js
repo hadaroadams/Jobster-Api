@@ -36,7 +36,7 @@ UserSchema.pre("save", async function () {
 // do not use a na arrow function because it prevent the binding of this
 UserSchema.methods.createJWT = function () {
   console.log(process.env.JWT_SECRETE)
-  return jwt.sign({ id: this.id, name: this.name }, process.env.JWT_SECRETE);
+  return jwt.sign({ id: this.id, name: this.name }, process.env.JWT_SECRETE,{expiresIn:'30s'});
 };
 
 UserSchema.methods.comparePassword = async function(canditatePassword){
